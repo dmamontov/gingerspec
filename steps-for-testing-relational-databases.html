@@ -222,6 +222,17 @@ pre code {
 			</div>
 			</ul>
 			<ul>
+			<li><h3>Executing a simple query on a Clickhouse database</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+    Scenario: Executing a simple query on a Clickhouse database
+      Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
+      When I execute query 'CREATE TABLE IF NOT EXISTS weather1 (city String, temp_lo Int, temp_hi Int, prcp Float, date Date) ENGINE = Log;'
+      Then I close database connection
+			</code></pre>
+			</div>
+			</ul>
+			<ul>
 			<li><h3>Execute a query from a file in a MySQL database</h3></li>
 			<div class="highlight">
 			<pre><code class="language-gherkin">
