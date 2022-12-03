@@ -280,7 +280,7 @@ pre code {
 			<pre><code class="language-gherkin">
     Scenario: Execute a query from a file in a Clickhouse database
       Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
-      When I execute query from 'sql/createWeatherClickhouse.sql'
+      When I execute query from 'sql/createWeather.clickhouse.sql'
       Then I check that table 'weather1' is equal to
         | city      | temp_lo | temp_hi | prcp | date       |
         | Caracas   | 15      | 43      | 0.0  | 2004-11-29 |
@@ -536,7 +536,7 @@ pre code {
 			<pre><code class="language-gherkin">
     Scenario: Store the value returned by a query in an environment variable (Clickhouse database)
       Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
-      When I execute query from 'sql/createWeatherClickhouse.sql'
+      When I execute query from 'sql/createWeather.clickhouse.sql'
       When I execute query from 'sql/selectWeather.sql'
       Then I save the value of the row number '1' and the column with name 'city' in environment variable 'CITY'
       Then I save the value of the row number '2' and the column with name 'temp_hi' in environment variable 'TEMP_BARCELONA'
@@ -584,7 +584,7 @@ pre code {
 			<pre><code class="language-gherkin">
     Scenario: Verify amount ot rows returned from last query (Clickhouse database)
       Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
-      And I execute query from 'sql/createWeatherClickhouse.sql'
+      And I execute query from 'sql/createWeather.clickhouse.sql'
       When I execute query from 'sql/selectWeather.sql'
       Then The last sql query returned at least '1' rows
       Then The last sql query returned exactly '3' rows
@@ -628,7 +628,7 @@ pre code {
 			<pre><code class="language-gherkin">
     Scenario: Saving the amount of rows returned by last query in a variable for future use (Clickhouse database)
       Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
-      And I execute query from 'sql/createWeatherClickhouse.sql'
+      And I execute query from 'sql/createWeather.clickhouse.sql'
       When I execute query from 'sql/selectWeather.sql'
       Then I save the amount of rows returned by the last query in environment variable 'ROWS'
       And '${ROWS}' is '3'
