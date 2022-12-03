@@ -352,6 +352,32 @@ pre code {
 			</div>
 			</ul>
 			<ul>
+			<li><h3>Executing SELECT statements on a Clickhouse database</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+    Scenario: Executing SELECT statements on a Clickhouse database
+      Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
+      Then I execute query 'CREATE TABLE IF NOT EXISTS weather1 (city String, temp_lo Int, temp_hi Int, prcp Float, date Date) ENGINE = Memory;'
+      Then I execute query 'TRUNCATE TABLE weather1;'
+      Then I execute query 'INSERT INTO weather1 (city, temp_lo, temp_hi, prcp, date) VALUES ('Caracas', 15, 43, 0.0, '2004-11-29');'
+      Then I execute query 'INSERT INTO weather1 (city, temp_lo, temp_hi, prcp, date) VALUES ('Barcelona', 5, 37, 0.4, '2014-11-29');'
+      Then I execute query 'INSERT INTO weather1 (city, temp_lo, temp_hi, prcp, date) VALUES ('Madrid', 8, 37, 0.4, '2016-11-30');'
+      When I query the database with 'SELECT * FROM weather1;'
+      Then I check that result is:
+        | city      | temp_lo | temp_hi | prcp | date       |
+        | Caracas   | 15      | 43      | 0.0  | 2004-11-29 |
+        | Barcelona | 5       | 37      | 0.4  | 2014-11-29 |
+        | Madrid    | 8       | 37      | 0.4  | 2016-11-30 |
+      Then I check that table 'weather1' is equal to
+        | city      | temp_lo | temp_hi | prcp | date       |
+        | Caracas   | 15      | 43      | 0.0  | 2004-11-29 |
+        | Barcelona | 5       | 37      | 0.4  | 2014-11-29 |
+        | Madrid    | 8       | 37      | 0.4  | 2016-11-30 |
+      Then I close database connection
+			</code></pre>
+			</div>
+			</ul>
+			<ul>
 			<li><h3>Execute a SELECT query from a file in a MySQL database</h3></li>
 			<div class="highlight">
 			<pre><code class="language-gherkin">
