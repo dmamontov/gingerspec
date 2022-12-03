@@ -185,6 +185,16 @@ pre code {
 			</code></pre>
 			</div>
 			</ul>
+			<ul>
+			<li><h3>Connect to clickhouse Database</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+    Scenario: Connect to clickhouse Database
+      Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
+      Then I close database connection
+			</code></pre>
+			</div>
+			</ul>
 
 			<hr>
 
