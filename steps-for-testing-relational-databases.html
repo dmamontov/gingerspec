@@ -227,7 +227,7 @@ pre code {
 			<pre><code class="language-gherkin">
     Scenario: Executing a simple query on a Clickhouse database
       Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
-      When I execute query 'CREATE TABLE IF NOT EXISTS weather1 (city String, temp_lo Int, temp_hi Int, prcp Float, date Date) ENGINE = Log;'
+      When I execute query 'CREATE TABLE IF NOT EXISTS weather1 (city String, temp_lo Int, temp_hi Int, prcp Float, date Date) ENGINE = Memory;'
       Then I close database connection
 			</code></pre>
 			</div>
@@ -260,6 +260,27 @@ pre code {
     Scenario: Execute a query from a file in a PostgreSQL database
       Given I connect with JDBC to database 'postgres' type 'postgresql' on host '${POSTGRES_HOST}' and port '5432' with user 'postgres' and password 'postgres'
       When I execute query from 'sql/createWeather.sql'
+      Then I check that table 'weather1' is equal to
+        | city      | temp_lo | temp_hi | prcp | date       |
+        | Caracas   | 15      | 43      | 0.0  | 2004-11-29 |
+        | Barcelona | 5       | 37      | 0.4  | 2014-11-29 |
+        | Madrid    | 8       | 37      | 0.4  | 2016-11-30 |
+      And I execute query 'DELETE FROM weather1 WHERE city = 'Madrid''
+      Then I check that table 'weather1' is equal to
+        | city      | temp_lo | temp_hi | prcp | date       |
+        | Caracas   | 15      | 43      | 0.0  | 2004-11-29 |
+        | Barcelona | 5       | 37      | 0.4  | 2014-11-29 |
+      Then I close database connection
+			</code></pre>
+			</div>
+			</ul>
+			<ul>
+			<li><h3>Execute a query from a file in a Clickhouse database</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+    Scenario: Execute a query from a file in a Clickhouse database
+      Given I connect with JDBC to database 'clickhouse' type 'clickhouse' on host '${CLICKHOUSE_HOST}' and port '8123' with user 'clickhouse' and password 'clickhouse'
+      When I execute query from 'sql/createWeatherClickhouse.sql'
       Then I check that table 'weather1' is equal to
         | city      | temp_lo | temp_hi | prcp | date       |
         | Caracas   | 15      | 43      | 0.0  | 2004-11-29 |
