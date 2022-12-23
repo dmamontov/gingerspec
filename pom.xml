@@ -4,7 +4,7 @@
 
     <groupId>com.github.privaliatech</groupId>
     <artifactId>gingerspec</artifactId>
-    <version>2.2.14</version>
+    <version>2.2.15</version>
 
     <name>Privalia GingerSpec framework</name>
     <description>Acceptance Test library. General purpose automation framework.</description>
@@ -469,11 +469,12 @@
                 <configuration>
                     <argLine>
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectjweaver.version}/aspectjweaver-${aspectjweaver.version}.jar
-<!--                        Uncomment if using AdoptOpenJDK-->
-<!--                        &#45;&#45;add-opens java.base/java.lang=ALL-UNNAMED-->
-<!--                        &#45;&#45;add-opens java.base/java.io=ALL-UNNAMED-->
-<!--                        &#45;&#45;add-opens java.base/java.util=ALL-UNNAMED-->
-<!--                        &#45;&#45;add-opens java.base/java.base=ALL-UNNAMED-->
+
+                        <!--Remove for version below 11-->
+                        --add-opens java.base/java.lang=ALL-UNNAMED
+                        --add-opens java.base/java.io=ALL-UNNAMED
+                        --add-opens java.base/java.util=ALL-UNNAMED
+                        --add-opens java.base/java.base=ALL-UNNAMED
                     </argLine>
                     <reportsDirectory>${project.build.directory}/failsafe-reports</reportsDirectory>
                 </configuration>

@@ -479,13 +479,14 @@ public class SeleniumGSpec extends BaseGSpec {
      *      And the element with 'class:form-label' index '1' has 'Email' as text
      * }</pre>
      *
-     * @param method    Method to use to locate the web element (id, name, class, etc)
-     * @param element   The relative reference to the element
-     * @param index     Index of the element, in case one or more elements with the given locator are found (first element starts with index 0)
-     * @param text      Text to locate
+     * @param method        Method to use to locate the web element (id, name, class, etc)
+     * @param element       The relative reference to the element
+     * @param index         Index of the element, in case one or more elements with the given locator are found (first element starts with index 0)
+     * @param text          Text to locate
+     * @param ignoreCase    Whether to ignore case or not when checking the text
      */
-    @Then("^the element with '(" + LOCATORS + "):(.*?)'( index '(\\d+)')? has '(.*)' as text$")
-    public void assertSeleniumTextOnElementByLocatorPresent(String method, String element, Integer index, String text) {
+    @Then("^the element with '(" + LOCATORS + "):(.*?)'( index '(\\d+)')? has '(.*)' as text( ignoring case)?$")
+    public void assertSeleniumTextOnElementByLocatorPresent(String method, String element, Integer index, String text, String ignoreCase) {
 
         this.assertSeleniumNElementExists("at least", 1, method, element);
         if (index == null) {
@@ -496,8 +497,13 @@ public class SeleniumGSpec extends BaseGSpec {
         Assertions.assertThat(commonspec.getPreviousWebElements().getPreviousWebElements().size()).as("Could not get webelement with index %s. Less elements were found. Allowed index: 0 to %s", index, commonspec.getPreviousWebElements().getPreviousWebElements().size() - 1)
                 .isGreaterThanOrEqualTo(index + 1);
 
-        this.getCommonSpec().getLogger().debug("Checking if text on element with '{}' as '{}' index '{}' has '{}' as text", element, method, index, text);
-        Assertions.assertThat(commonspec.getPreviousWebElements().getPreviousWebElements().get(index).getText()).contains(text);
+        if (ignoreCase == null) {
+            this.getCommonSpec().getLogger().debug("Checking if text on element with '{}' as '{}' index '{}' has '{}' as text", element, method, index, text);
+            Assertions.assertThat(commonspec.getPreviousWebElements().getPreviousWebElements().get(index).getText()).contains(text);
+        } else {
+            this.getCommonSpec().getLogger().debug("Checking if text on element with '{}' as '{}' index '{}' has '{}' as text ignoring case", element, method, index, text);
+            Assertions.assertThat(commonspec.getPreviousWebElements().getPreviousWebElements().get(index).getText()).containsIgnoringCase(text);
+        }
     }
 
 
@@ -520,7 +526,27 @@ public class SeleniumGSpec extends BaseGSpec {
      */
     @Then("^this text exists:$")
     public void assertSeleniumTextInSource(String text) {
-        Assertions.assertThat(commonspec.getDriver().getPageSource().contains(text)).as("The expected text was not found in the page source").isTrue();
+        Assertions.assertThat(commonspec.getDriver().getPageSource()).as("The expected text was not found in the page source").contains(text);
+    }
+
+    /**
+     * Checks if a text exists in the source of an already loaded URL ignoring case.
+     * <pre>{@code
+     * Example:
+     *
+     * Scenario: Verify text exists in page source
+     *      Given I go to 'http:mydummysite/index.html'
+     *      Then this text exists:
+     *      """
+     *      <h1 class="entry-title">Home</h1>
+     *      """
+     * }</pre>
+     *
+     * @param text the text to verify
+     */
+    @Then("^this text exists ignoring case:$")
+    public void assertSeleniumTextInSourceIgnoreCase(String text) {
+        Assertions.assertThat(commonspec.getDriver().getPageSource()).as("The expected text was not found in the page source").containsIgnoringCase(text);
     }
 
     /**
