@@ -178,11 +178,45 @@ gherkin-tag {
 		<ol>
 			<li><h2>Set up initial base URI for future requests</h2></li>
 			<ul>
-			<li><h3>Setting up base URI for future requests using graphql schema</h3></li>
+			<li><h3>Setting up base URI for future requests using http</h3></li>
 			<div class="highlight">
 			<pre><code class="language-gherkin">
 			
-    <span class="gherkin-keyword">Scenario: </span>Setting up base URI for future requests using graphql schema
+    <span class="gherkin-keyword">Scenario: </span>Setting up base URI for future requests using http
+      <span class="gherkin-keyword">Given </span>I send requests to '${REST_SERVER_HOST}:3000'
+			</code></pre>
+			</div>
+			</ul>
+			<ul>
+			<li><h3>Setting up base URI for future requests using https</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+			
+    <span class="gherkin-keyword">Scenario: </span>Setting up base URI for future requests using https
+      <span class="gherkin-keyword">Given </span>I securely send requests to '${REST_SERVER_HOST}:3000'
+			</code></pre>
+			</div>
+			</ul>
+
+			<hr>
+
+			<li><h2>Set up initial base URI for future graphql requests</h2></li>
+			<ul>
+			<li><h3>Setting up base URI for future requests without graphql schema</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+			
+    <span class="gherkin-keyword">Scenario: </span>Setting up base URI for future requests without graphql schema
+      <span class="gherkin-keyword">Given </span>I send requests to '${GRAPHQL_SERVER_HOST}:3001'
+			</code></pre>
+			</div>
+			</ul>
+			<ul>
+			<li><h3>Setting up base URI for future requests with graphql schema</h3></li>
+			<div class="highlight">
+			<pre><code class="language-gherkin">
+			
+    <span class="gherkin-keyword">Scenario: </span>Setting up base URI for future requests with graphql schema
       <span class="gherkin-keyword">Given </span>I send requests to '${GRAPHQL_SERVER_HOST}:3001'
       <span class="gherkin-keyword">Given </span>I getting the graphql schema from 'schemas/schema.graphql'
 			</code></pre>
